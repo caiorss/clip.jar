@@ -39,8 +39,8 @@ object Clip {
     imgOpt match {
       case None      => println("Error: No image available in clipboard.")
       case Some(img) => val file = new File(filename)
-        ImageIO.write(img, ext, file)
-        println("file:" + filename)
+                        ImageIO.write(img, ext, file)
+                        println("file:" + file.toString)
     }
   }
 
