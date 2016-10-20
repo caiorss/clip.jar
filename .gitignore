@@ -2,5 +2,6 @@
 *.png
 *.class
 *.bin
-target/*
+
 lib/*
+/clipboard.scala.back

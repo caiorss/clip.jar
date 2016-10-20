@@ -1,3 +1,5 @@
+* Project Notes 
+*** Elisp client code 
 
 #+BEGIN_SRC elisp 
 (defun org-wiki-paste-image-uuid ()
@@ -34,3 +36,11 @@
                  " "
                  ))))))
 #+END_SRC
+*** Snippets sources 
+
+ - [[https://mynotes.wordpress.com/2009/07/22/save-image-from-clipboard-to-file/][save image from clipboard to file | notepad blog]]
+
+ - 
+*** Design Decisions
+
+ - 
