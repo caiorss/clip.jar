@@ -2,39 +2,46 @@
 *** Elisp client code 
 
 #+BEGIN_SRC elisp 
-(defun org-wiki-paste-image-uuid ()
-  "Paste a image with automatic generated name."
-  (interactive)
-  (insert "#+CAPTION: ")
-  (save-excursion
-    (insert "\n")
-    (insert
-     (shell-command-to-string
-      (mapconcat #'identity
-                 `("scala"
-                   "/home/arch/Documents/projects/clipboard.scala/clipb.jar"
-                   "-uuid"
-                   ,(file-name-base (buffer-file-name)))
-                 " "
-                 )))))
 
-(defun org-wiki-paste-image ()  
-  "Paste a image asking the user for the file name."
-  (interactive)
-  (save-excursion
-    (let ((file (read-file-name "Image: " (file-name-as-directory
-                                           (file-name-base
-                                            (buffer-file-name))))))
+
+  (defun org-wiki-paste-image-uuid ()
+    "Paste a image with automatic generated name (uuid)."
+    (interactive)
+    (insert "#+CAPTION: ")
+    (save-excursion
+      (insert "\n")
       (insert
        (shell-command-to-string
         (mapconcat #'identity
-                 `("scala"
-                   "/home/arch/Documents/projects/clipboard.scala/clipb.jar"
-                   "-file"
-                   ,file
-                   )
-                 " "
-                 ))))))
+                   `("java"
+                     "-jar"
+                     ,(expand-file-name "~/bin/Clip.jar")
+                     "-uuid"
+                     ,(format "\"%s\"" (file-name-base (buffer-file-name))))
+                   " "
+                   )))))
+
+  (defun org-wiki-paste-image ()  
+    "Paste a image asking the user for the file name."
+    (interactive)
+    (insert "#+CAPTION: ")
+    (save-excursion
+      (insert "\n")
+      (let* ((dir   (file-name-as-directory
+                     (file-name-base
+                      (buffer-file-name))))
+             (file (read-file-name "Image: " dir)))
+        (insert
+         (shell-command-to-string
+           (mapconcat #'identity
+                      `("java"
+                        "-jar"
+                        ,(expand-file-name "~/bin/Clip.jar")
+                        "-file"
+                        ,(file-relative-name file default-directory)
+                        )
+                      " "
+                      ))))))
 #+END_SRC
 *** Snippets sources 
 
