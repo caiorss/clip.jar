@@ -1,16 +1,25 @@
 #+TITLE: Clip - Utility to copy image from clipboard to file. 
+#+AUTHOR: Caio Rodrigues
+#+EMAIL:  caiorss DOT rodrigues AT gmail DOT com 
+#+STARTUP: overview
 
 * Clip 
 ** Overview 
 
-Clip is a command-line friendly utility to extract images from
-clipboard and save it to files.
+Clip is a self-contained command line utility written in Scala to
+extract images from clipboard and save it to a file. It is a module of
+[[https://github.com/caiorss/org-wiki][org-wiki]] project.
+
+Motivation: This utility is useful to paste images on Emacs org-mode
+and markdown formats like github markdown.
 
 ** Usage 
 
 1. Copy an image from clipboard to a file with given name. 
 
  - =$ java -jar Clip.jar -file /tmp/image.png=
+
+Example:
 
 #+BEGIN_SRC 
 $ java -jar ./target/scala-2.11/Clip-assembly-1.0.jar -file /tmp/image.png
@@ -21,6 +30,8 @@ file:/tmp/image.png
    generated name). 
 
  - =$ java -jar Clip.jar -uuid /tmp=
+
+Example:
 
 #+BEGIN_SRC 
 $ java -jar ./target/scala-2.11/Clip-assembly-1.0.jar -uuid /tmp 
@@ -57,5 +68,14 @@ java -jar ./target/scala-2.11/Clip-assembly-1.0.jar -uuid .
 file:./fba53c12-3f23-4728-9f52-a26a3d285d7c.png
 #+END_SRC
 
+** Download Release 
+
+You can downlad the binary release with: 
+
+#+BEGIN_SRC 
+mkdir -p ~/bin
+cd ~/bin 
+curl -O -L https://github.com/caiorss/clip.jar/raw/build/Clip.jar
+#+END_SRC
 
 

@@ -6,3 +6,4 @@
 lib/*
 /clipboard.scala.back
 /build/
+target/
