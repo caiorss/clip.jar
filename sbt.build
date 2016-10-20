@@ -2,4 +2,8 @@ name := "Clip"
 
 version := "1.0"
 
+organization := "com.github.caiorss"
+
 scalaVersion := "2.10.2"
+
+mainClass in Compile := Some("Clip")
