@@ -17,5 +17,9 @@ install:
 	mkdir -p ~/bin
 	cp $(BUILD) $(INSTALL)
 
+release:
+	cp $(BUILD) ./build/Clip.jar 
+	cd ./build && git add Clip.jar && git commit -m "Update release"
+
 clean:
 	sbt clean 

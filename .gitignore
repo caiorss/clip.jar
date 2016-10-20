@@ -5,3 +5,4 @@
 
 lib/*
 /clipboard.scala.back
+/build/

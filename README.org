@@ -1,0 +1,61 @@
+#+TITLE: Clip - Utility to copy image from clipboard to file. 
+
+* Clip 
+** Overview 
+
+Clip is a command-line friendly utility to extract images from
+clipboard and save it to files.
+
+** Usage 
+
+1. Copy an image from clipboard to a file with given name. 
+
+ - =$ java -jar Clip.jar -file /tmp/image.png=
+
+#+BEGIN_SRC 
+$ java -jar ./target/scala-2.11/Clip-assembly-1.0.jar -file /tmp/image.png
+file:/tmp/image.png
+#+END_SRC
+
+2. Copy an image from clipboard to file with an uuid (automatically
+   generated name). 
+
+ - =$ java -jar Clip.jar -uuid /tmp=
+
+#+BEGIN_SRC 
+$ java -jar ./target/scala-2.11/Clip-assembly-1.0.jar -uuid /tmp 
+file:/tmp/715dbacb-c6d1-40db-8d91-c90e7217ace8.png
+#+END_SRC
+
+** Build 
+ 
+To build it is necessary Scala and Sbt be installed on the system. 
+
+*Build instruction* 
+
+ - Just run =$ make= to build the ubber jar. The output file will be
+   ./target/scala-2.11/Clip-assembly-1.0.jar
+
+** Test 
+
+ - =$ make test1=
+
+Copy an image and enter $ make test1. If the app works it will write
+the image to the file _clipboard.png_. 
+
+
+
+ - =$ make test2= 
+
+Copy an image to 
+
+The output will be like: 
+
+#+BEGIN_SRC 
+$ make test2
+java -jar ./target/scala-2.11/Clip-assembly-1.0.jar -uuid . 
+file:./fba53c12-3f23-4728-9f52-a26a3d285d7c.png
+#+END_SRC
+
+
+
