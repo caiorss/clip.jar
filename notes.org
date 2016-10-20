@@ -1,0 +1,36 @@
+
+#+BEGIN_SRC elisp 
+(defun org-wiki-paste-image-uuid ()
+  "Paste a image with automatic generated name."
+  (interactive)
+  (insert "#+CAPTION: ")
+  (save-excursion
+    (insert "\n")
+    (insert
+     (shell-command-to-string
+      (mapconcat #'identity
+                 `("scala"
+                   "/home/arch/Documents/projects/clipboard.scala/clipb.jar"
+                   "-uuid"
+                   ,(file-name-base (buffer-file-name)))
+                 " "
+                 )))))
+
+(defun org-wiki-paste-image ()  
+  "Paste a image asking the user for the file name."
+  (interactive)
+  (save-excursion
+    (let ((file (read-file-name "Image: " (file-name-as-directory
+                                           (file-name-base
+                                            (buffer-file-name))))))
+      (insert
+       (shell-command-to-string
+        (mapconcat #'identity
+                 `("scala"
+                   "/home/arch/Documents/projects/clipboard.scala/clipb.jar"
+                   "-file"
+                   ,file
+                   )
+                 " "
+                 ))))))
+#+END_SRC
