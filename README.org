@@ -73,9 +73,11 @@ file:./fba53c12-3f23-4728-9f52-a26a3d285d7c.png
 This emacs command can be used to paste images. The command M-x org-paste-image
 ask the user the directory him whichs to paste and then it inserts the
 path to the image relative to current directory. If the current
-directory is ~/ (/home/dummy) and the the current file is ~/test.org
+directory is ~ (/home/dummy) and the the current file is ~/test.org
 , if the user chooses to paste the file at directory ~/Pictures it
-inserts the path to the crated file ~file:Pictures/acb19f19-31c0-4550-874d-1111aafbb93f.png~.
+inserts the path to the crated file 
+
+ - ~file:Pictures/acb19f19-31c0-4550-874d-1111aafbb93f.png~
  
 
 #+BEGIN_SRC elisp 
