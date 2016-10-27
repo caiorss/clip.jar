@@ -70,12 +70,16 @@ file:./fba53c12-3f23-4728-9f52-a26a3d285d7c.png
 
 ** Download Release 
 
-You can downlad the binary release with: 
+You can download a pre-compilead binary release from: 
 
-#+BEGIN_SRC 
-mkdir -p ~/bin
-cd ~/bin 
-curl -O -L https://github.com/caiorss/clip.jar/raw/build/Clip.jar
+ -  https://github.com/caiorss/clip.jar/blob/build/Clip.jar
+
+Or automatically with this bash script: 
+
+#+BEGIN_SRC sh  
+  mkdir -p ~/bin && \
+      cd ~/bin && \
+      curl -O -L https://github.com/caiorss/clip.jar/raw/build/Clip.jar
 #+END_SRC
 
 
