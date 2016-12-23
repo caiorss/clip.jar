@@ -10,7 +10,7 @@ import java.util.UUID
 object Clip {
 
   def genFileName (): String = {
-     UUID.randomUUID.toString + ".png"
+     UUID.randomUUID.toString // + ".png"
   }
 
   def getClipboard (): Clipboard = {
