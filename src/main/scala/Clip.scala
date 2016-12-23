@@ -45,10 +45,11 @@ object Clip {
     }
   }
 
+  /// Save image from clipboard to a file with extension png
   def saveClipboardImageUUID(directory: String){
-    val filename = (new File(directory, genFileName())).toString
+    val imageName = (new File(directory, genFileName())).toString
     //println("File name = " + filename)      
-    saveClipboardImage(filename)
+    saveClipboardImage(directory, imageName)
   }
 
   def processArguments(arg0: String, arg1: String) = {
