@@ -75,12 +75,14 @@ object Clip {
 
 
   def main(args: Array[String]): Unit = {
-    args.length match {
-      case  0  => println("Error: Invalid option")
-      case  2  => processArguments(args(0), args(1))  //saveClipboardImageUUID(args(0))
-      // saveClipboardImage(args(0))
-      case  _  => println("Error: Invalid option")
+    args.toList match {
+      case List("--uuid", directory)           => saveClipboardImageUUID(directory)
+      case List("--name", name)                => saveClipboardImage(".", name)
+      case List("--name", name, directory)     => saveClipboardImage(directory, name)
+      case List()                              => printHelp()
+      case _                                   => println("Failed")
+
     }
-  }
+  } // End of main ()
 
 }
