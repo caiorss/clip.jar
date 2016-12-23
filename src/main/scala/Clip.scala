@@ -25,7 +25,7 @@ object Clip {
     Option(cpl.getContents(null))
   }
 
-
+  /// Try to get a image from clipboard
   def getImage(cpl: Clipboard): Option[BufferedImage] = {
     getContent(cpl)
       .filter(_.isDataFlavorSupported(DataFlavor.imageFlavor))
