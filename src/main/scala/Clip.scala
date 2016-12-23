@@ -52,8 +52,27 @@ object Clip {
     saveClipboardImage(directory, imageName)
   }
 
+  def printHelp () {
+    println("""Usage:
+
+  Save clipboard image with a given Name
+
+    $ javar -jar Clip.jar --name imageName
+      -> save image to ./imageName.png and print ./imageName.png
+
+    $ java -jar Clip.jar --name imageName  /tmp
+      -> save image to /tmp/imageName.png and print /tmp/imageName.png
+
+  Save clipboard image with an automatic generated name
+    - UUID - Universal Unique Identifier
+
+    $ java -jar Clip.jar --uuid /tmp
+      -> save image to /tmp/415dafcf-5fd0-4d10-97f2-0da82bf1bf3f.png and print
+         - 415dafcf-5fd0-4d10-97f2-0da82bf1bf3f.png
+""")
+
     }
-  }
+
 
   def main(args: Array[String]): Unit = {
     args.length match {
