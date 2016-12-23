@@ -32,15 +32,16 @@ object Clip {
       .map(_.getTransferData(DataFlavor.imageFlavor).asInstanceOf[BufferedImage])
   }
 
-  def saveClipboardImage(filename: String){
+  /// Save image from clipboard to a file
+  def saveClipboardImage(directory: String, imageName: String){
     val imgOpt = getImage(getClipboard())
-    val ext    = filename.split("\\.").last
+    // val ext    = filename.split("\\.").last
 
     imgOpt match {
       case None      => println("Error: No image available in clipboard.")
-      case Some(img) => val file = new File(filename)
-                        ImageIO.write(img, ext, file)
-                        println("file:" + file.toString)
+      case Some(img) => val file = new File(directory, imageName + ".png")
+                        ImageIO.write(img, "png", file)
+                        println(file.toString)
     }
   }
 
