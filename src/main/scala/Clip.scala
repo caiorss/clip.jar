@@ -52,11 +52,6 @@ object Clip {
     saveClipboardImage(directory, imageName)
   }
 
-  def processArguments(arg0: String, arg1: String) = {
-    arg0 match {
-      case "-uuid"  =>  saveClipboardImageUUID(arg1)
-      case "-file"  =>  saveClipboardImage(arg1)
-      case  _       =>  println("Error: Invalid option.")
     }
   }
 
