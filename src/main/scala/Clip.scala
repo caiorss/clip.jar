@@ -47,9 +47,9 @@ object Clip {
 
   /// Save image from clipboard to a file with extension png
   def saveClipboardImageUUID(directory: String){
-    val imageName = (new File(directory, genFileName())).toString
+    // val imageName = (new File(directory,)).toString
     //println("File name = " + filename)      
-    saveClipboardImage(directory, imageName)
+    saveClipboardImage(directory,  genFileName())
   }
 
   def printHelp () {

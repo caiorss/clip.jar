@@ -1,7 +1,7 @@
 lazy val root = (project in file(".")).
   settings(
     name := "Clip",
-    version := "1.1",
+    version := "1.1.1",
     scalaVersion := "2.11.4",
     mainClass in Compile := Some("Clip")        
   )

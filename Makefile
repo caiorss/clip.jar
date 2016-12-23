@@ -1,4 +1,4 @@
-VERSION :=1.1
+VERSION :=1.1.1
 BUILD   := ./target/scala-2.11/Clip-assembly-$(VERSION).jar
 INSTALL := ~/bin/Clip.jar 
 
@@ -21,7 +21,7 @@ install:
 
 release:
 	echo "Release "$(VERSION)
-	cp $(BUILD) ./build/Clip.jar 
+	cp -v $(BUILD) ./build/Clip.jar 
 	cd ./build && git add Clip.jar && git commit -m "Release"$(VERSION)
 
 clean:
