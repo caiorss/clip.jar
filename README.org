@@ -13,29 +13,45 @@ extract images from clipboard and save it to a file. It is a module of
 Motivation: This utility is useful to paste images on Emacs org-mode
 and markdown formats like github markdown.
 
+Scala was used in this application because Java has the more reliable
+API to access the clipboard in many platforms including Linux and
+Windows and the user doesn't need to install any other dependency than
+java.
+
 ** Usage 
 
-1. Copy an image from clipboard to a file with given name. 
+1. Save an image from clipboard to a file with given name. 
 
- - =$ java -jar Clip.jar -file /tmp/image.png=
+ - =$ java -jar Clip.jar --name imageName=
+
+It save the image in the clipboard to ./imagerName.png 
 
 Example:
 
 #+BEGIN_SRC 
-$ java -jar ./target/scala-2.11/Clip-assembly-1.0.jar -file /tmp/image.png
+$ java -jar ./target/scala-2.11/Clip-assembly-1.0.jar --name /tmp/image.png
 file:/tmp/image.png
 #+END_SRC
 
-2. Copy an image from clipboard to file with an uuid (automatically
+
+2. Save an image from clipboard to a file with a given name 
+
+ - =$ java -jar Clip.jar --name imageName /tmp/directory=
+
+It saves the image in the clipboard to /tmp/directory/imageName.png
+
+3. Copy an image from clipboard to file with an uuid (automatically
    generated name). 
 
  - =$ java -jar Clip.jar -uuid /tmp=
 
+It saves the image in the clipboard to file /tmp/715dbacb-c6d1-40db-8d91-c90e7217ace8.png
+
 Example:
 
 #+BEGIN_SRC 
-$ java -jar ./target/scala-2.11/Clip-assembly-1.0.jar -uuid /tmp 
-file:/tmp/715dbacb-c6d1-40db-8d91-c90e7217ace8.png
+$ java -jar ./target/scala-2.11/Clip-assembly-1.0.jar --uuid /tmp 
+tmp/715dbacb-c6d1-40db-8d91-c90e7217ace8.png
 #+END_SRC
 
 ** Build 
@@ -69,7 +85,7 @@ file:./fba53c12-3f23-4728-9f52-a26a3d285d7c.png
 #+END_SRC
 
 ** Emacs Client Code 
-
+   
 This emacs command can be used to paste images. The command M-x org-paste-image
 ask the user the directory him whichs to paste and then it inserts the
 path to the image relative to current directory. If the current
@@ -81,34 +97,36 @@ inserts the path to the crated file
  
 
 #+BEGIN_SRC elisp 
-(defun org-paste-image ()
-     (interactive)
-     (let* ((dir (read-directory-name "Dir: ")))       
-       (insert        
-        (shell-command-to-string
-         (mapconcat #'identity
-                    `("java"
-                      "-jar"
-                      ,(expand-file-name "~/bin/Clip.jar")
-                      "-uuid"
-                      ,(file-relative-name dir default-directory)
-                      )
-                    " "
-                    ))))) 
+  (defun org-paste-image ()
+       (interactive)
+       (let* ((dir (read-directory-name "Dir: ")))       
+         (insert        
+          (concat "file:"
+                  (shell-command-to-string
+                   (mapconcat #'identity
+                         `("java"
+                           "-jar"
+                           ,(expand-file-name "~/bin/Clip.jar")
+                           "--uuid"
+                           ,(file-relative-name dir default-directory)
+                           )
+                         " "
+                         )))))) 
 #+END_SRC
 
 ** Download Release 
 
-You can download a pre-compilead binary release from: 
+You can download a compilead binary release from: 
 
  -  https://github.com/caiorss/clip.jar/blob/build/Clip.jar
+
+The file is about 5 MB because it was compiled with the Scala run-time
+bundled with the app.
 
 Or automatically with this bash script: 
 
 #+BEGIN_SRC sh  
-  mkdir -p ~/bin && \
-      cd ~/bin && \
-      curl -O -L https://github.com/caiorss/clip.jar/raw/build/Clip.jar
+  mkdir -p ~/bin &&  cd ~/bin && curl -O -L https://github.com/caiorss/clip.jar/raw/build/Clip.jar
 #+END_SRC
 
 

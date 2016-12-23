@@ -10,7 +10,7 @@ import java.util.UUID
 object Clip {
 
   def genFileName (): String = {
-     UUID.randomUUID.toString + ".png"
+     UUID.randomUUID.toString // + ".png"
   }
 
   def getClipboard (): Clipboard = {
@@ -25,46 +25,64 @@ object Clip {
     Option(cpl.getContents(null))
   }
 
-
+  /// Try to get a image from clipboard
   def getImage(cpl: Clipboard): Option[BufferedImage] = {
     getContent(cpl)
       .filter(_.isDataFlavorSupported(DataFlavor.imageFlavor))
       .map(_.getTransferData(DataFlavor.imageFlavor).asInstanceOf[BufferedImage])
   }
 
-  def saveClipboardImage(filename: String){
+  /// Save image from clipboard to a file
+  def saveClipboardImage(directory: String, imageName: String){
     val imgOpt = getImage(getClipboard())
-    val ext    = filename.split("\\.").last
+    // val ext    = filename.split("\\.").last
 
     imgOpt match {
       case None      => println("Error: No image available in clipboard.")
-      case Some(img) => val file = new File(filename)
-                        ImageIO.write(img, ext, file)
-                        println("file:" + file.toString)
+      case Some(img) => val file = new File(directory, imageName + ".png")
+                        ImageIO.write(img, "png", file)
+                        println(file.toString)
     }
   }
 
+  /// Save image from clipboard to a file with extension png
   def saveClipboardImageUUID(directory: String){
-    val filename = (new File(directory, genFileName())).toString
+    val imageName = (new File(directory, genFileName())).toString
     //println("File name = " + filename)      
-    saveClipboardImage(filename)
+    saveClipboardImage(directory, imageName)
   }
 
-  def processArguments(arg0: String, arg1: String) = {
-    arg0 match {
-      case "-uuid"  =>  saveClipboardImageUUID(arg1)
-      case "-file"  =>  saveClipboardImage(arg1)
-      case  _       =>  println("Error: Invalid option.")
+  def printHelp () {
+    println("""Usage:
+
+  Save clipboard image with a given Name
+
+    $ javar -jar Clip.jar --name imageName
+      -> save image to ./imageName.png and print ./imageName.png
+
+    $ java -jar Clip.jar --name imageName  /tmp
+      -> save image to /tmp/imageName.png and print /tmp/imageName.png
+
+  Save clipboard image with an automatic generated name
+    - UUID - Universal Unique Identifier
+
+    $ java -jar Clip.jar --uuid /tmp
+      -> save image to /tmp/415dafcf-5fd0-4d10-97f2-0da82bf1bf3f.png and print
+         - 415dafcf-5fd0-4d10-97f2-0da82bf1bf3f.png
+""")
+
     }
-  }
+
 
   def main(args: Array[String]): Unit = {
-    args.length match {
-      case  0  => println("Error: Invalid option")
-      case  2  => processArguments(args(0), args(1))  //saveClipboardImageUUID(args(0))
-      // saveClipboardImage(args(0))
-      case  _  => println("Error: Invalid option")
+    args.toList match {
+      case List("--uuid", directory)           => saveClipboardImageUUID(directory)
+      case List("--name", name)                => saveClipboardImage(".", name)
+      case List("--name", name, directory)     => saveClipboardImage(directory, name)
+      case List()                              => printHelp()
+      case _                                   => println("Failed")
+
     }
-  }
+  } // End of main ()
 
 }
