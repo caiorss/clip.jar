@@ -1,6 +1,7 @@
 #+TITLE: Clip - Utility to copy image from clipboard to file. 
 #+AUTHOR: Caio Rodrigues
 #+EMAIL:  caiorss DOT rodrigues AT gmail DOT com 
+#+KEYWORKDS: clip clipboard image paste emacs org-mode markdown org md
 #+STARTUP: content
 
 * Clip 
@@ -10,13 +11,21 @@ Clip is a self-contained command line utility written in Scala to
 extract images from clipboard and save it to a file. It is a module of
 [[https://github.com/caiorss/org-wiki][org-wiki]] project.
 
-Motivation: This utility is useful to paste images on Emacs org-mode
-and markdown formats like github markdown.
+*Motivation*
 
-Scala was used in this application because Java has the more reliable
+This utility is useful to paste images on Emacs org-mode and markdown
+formats like github markdown.
+
+*Design decisions*
+
+Scala was used in this application because Java platform has the more reliable
 API to access the clipboard in many platforms including Linux and
 Windows and the user doesn't need to install any other dependency than
-java.
+Java. 
+
+If it was Python the user would have to install gtk or any GUI toolkit
+dependencies and binaries and also a Python distribution and would be
+hard distribute it as a self-contained solution.
 
 ** Usage 
 
@@ -85,6 +94,7 @@ file:./fba53c12-3f23-4728-9f52-a26a3d285d7c.png
 #+END_SRC
 
 ** Emacs Client Code 
+*** Client code 1
    
 This emacs command can be used to paste images. The command M-x
 org-paste-image ask the user the directory him whichs to paste and
@@ -98,6 +108,10 @@ directory ~/Pictures it inserts the path to the image file like this.
 
 The advantage of automatic name with UUID is that is easier to paste
 and move images without any name conflict or overwrite any image.
+
+Warn: This code is synchrnous, therefor Emacs will be frozen while the
+process doesn't finish. If it takes too long you can abort the
+execution with C-g.
 
 #+BEGIN_SRC elisp 
   (defvar clipjar-location "~/bin/Clip.jar")
@@ -127,8 +141,35 @@ The image can be identified with a caption attribute:
 file:Pictures/acb19f19-31c0-4550-874d-1111aafbb93f.png
 #+END_SRC
 
-
+#+CAPTION: Demonstration of org-paste-image 
 [[file:images/example-org-paste-image-uuid.gif]]
+
+*** Client code 2 
+
+#+BEGIN_SRC elisp
+  (defvar clipjar-location "~/bin/Clip.jar")
+
+  (defun org-paste-image2 ()
+       (interactive)
+       (let* ((image-name (string-trim (read-string "Image name: "))))       
+         (insert        
+          (org-make-link-string
+           (concat "file:"
+                   (shell-command-to-string
+                    (mapconcat #'identity
+                               `("java"
+                                 "-jar"
+                                 ,(expand-file-name clipjar-location)
+                                 "--name"
+                                 ,(concat "'" image-name "'")        ;; image name without extension must be quoted
+                                 "'/tmp/scala images'"               ;; Directory which the image will be saved '/tmp/images scala'
+                                 )
+                               " "
+                               ))))))) 
+#+END_SRC
+
+#+CAPTION: Demonstration of org-paste-image2
+[[file:images/example-org-paste-image2.gif]]
 
 ** Download Release 
 
