@@ -1,7 +1,7 @@
 #+TITLE: Clip - Utility to copy image from clipboard to file. 
 #+AUTHOR: Caio Rodrigues
 #+EMAIL:  caiorss DOT rodrigues AT gmail DOT com 
-#+KEYWORKDS: clip clipboard image paste emacs org-mode markdown org md
+#+KEYWORKDS: clip clipboard image paste emacs org-mode markdown org md scala java
 #+STARTUP: content
 
 * Clip 
@@ -16,6 +16,15 @@ extract images from clipboard and save it to a file. It is a module of
 This utility is useful to paste images on Emacs org-mode and markdown
 formats like github markdown.
 
+*Features* 
+
+ - Command line app. Can be integrated to Emacs or any other editor
+   that supports run subprocesses.
+
+ - Cross-platform as any Java-app. Tested in Linux and Windows.
+
+ - Add pictures to org-mode or any markdown on the fly.
+
 *Design decisions*
 
 Scala was used in this application because Java platform has the more reliable
@@ -25,7 +34,7 @@ Java.
 
 If it was Python the user would have to install gtk or any GUI toolkit
 dependencies and binaries and also a Python distribution and would be
-hard distribute it as a self-contained solution.
+hard distribute it as a self-contained one-file solution.
 
 ** Usage 
 
@@ -61,6 +70,28 @@ Example:
 #+BEGIN_SRC 
 $ java -jar ./target/scala-2.11/Clip-assembly-1.0.jar --uuid /tmp 
 tmp/715dbacb-c6d1-40db-8d91-c90e7217ace8.png
+#+END_SRC
+
+ - 4. Print help and example: 
+
+#+BEGIN_SRC text
+$ java -jar ~/bin/Clip.jar 
+Usage:
+
+  Save clipboard image with a given Name
+
+    $ javar -jar Clip.jar --name imageName
+      -> save image to ./imageName.png and print ./imageName.png
+
+    $ java -jar Clip.jar --name imageName  /tmp
+      -> save image to /tmp/imageName.png and print /tmp/imageName.png
+
+  Save clipboard image with an automatic generated name
+    - UUID - Universal Unique Identifier
+
+    $ java -jar Clip.jar --uuid /tmp
+      -> save image to /tmp/415dafcf-5fd0-4d10-97f2-0da82bf1bf3f.png and print
+         - 415dafcf-5fd0-4d10-97f2-0da82bf1bf3f.png
 #+END_SRC
 
 ** Build 
