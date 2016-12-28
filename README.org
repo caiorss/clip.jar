@@ -1,7 +1,7 @@
 #+TITLE: Clip - Utility to copy image from clipboard to file. 
 #+AUTHOR: Caio Rodrigues
 #+EMAIL:  caiorss DOT rodrigues AT gmail DOT com 
-#+STARTUP: overview
+#+STARTUP: content
 
 * Clip 
 ** Overview 
@@ -86,33 +86,49 @@ file:./fba53c12-3f23-4728-9f52-a26a3d285d7c.png
 
 ** Emacs Client Code 
    
-This emacs command can be used to paste images. The command M-x org-paste-image
-ask the user the directory him whichs to paste and then it inserts the
-path to the image relative to current directory. If the current
-directory is ~ (/home/dummy) and the the current file is ~/test.org
-, if the user chooses to paste the file at directory ~/Pictures it
-inserts the path to the crated file 
+This emacs command can be used to paste images. The command M-x
+org-paste-image ask the user the directory him whichs to paste and
+then it inserts the path to the image relative to current
+directory. If the current directory is ~ (/home/dummy) and the the
+current file is ~/test.org , if the user chooses to paste the file at
+directory ~/Pictures it inserts the path to the image file like this.
 
  - ~file:Pictures/acb19f19-31c0-4550-874d-1111aafbb93f.png~
  
 
+The advantage of automatic name with UUID is that is easier to paste
+and move images without any name conflict or overwrite any image.
+
 #+BEGIN_SRC elisp 
+  (defvar clipjar-location "~/bin/Clip.jar")
+
   (defun org-paste-image ()
        (interactive)
        (let* ((dir (read-directory-name "Dir: ")))       
          (insert        
-          (concat "file:"
-                  (shell-command-to-string
-                   (mapconcat #'identity
-                         `("java"
-                           "-jar"
-                           ,(expand-file-name "~/bin/Clip.jar")
-                           "--uuid"
-                           ,(file-relative-name dir default-directory)
-                           )
-                         " "
-                         )))))) 
+          (org-make-link-string
+           (concat "file:"
+                   (shell-command-to-string
+                    (mapconcat #'identity
+                               `("java"
+                                 "-jar"
+                                 ,(expand-file-name clipjar-location)
+                                 "--uuid"
+                                 ,(file-relative-name dir default-directory)
+                                 )
+                               " "
+                               ))))))) 
 #+END_SRC
+
+The image can be identified with a caption attribute:
+
+#+BEGIN_SRC sh
+#+CAPTION: Power Supply Circuit Diagram.
+file:Pictures/acb19f19-31c0-4550-874d-1111aafbb93f.png
+#+END_SRC
+
+
+[[file:images/example-org-paste-image-uuid.gif]]
 
 ** Download Release 
 
