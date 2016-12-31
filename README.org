@@ -95,13 +95,73 @@ Usage:
 #+END_SRC
 
 ** Build 
- 
+
+*Development Dependencies*
+
 To build it is necessary Scala and Sbt be installed on the system. 
+
+It is necessary Java >= v1.8 and Scala runtime >= v2.11.8
+
+#+BEGIN_SRC sh
+  $ java -version
+  java version "1.8.0_74"
+  Java(TM) SE Runtime Environment (build 1.8.0_74-b02)
+  Java HotSpot(TM) 64-Bit Server VM (build 25.74-b02, mixed mode)
+
+  $ scala -version
+  Scala code runner version 2.11.8 -- Copyright 2002-2016, LAMP/EPFL
+#+END_SRC
+
+The Scala runtime can be downloaded from:
+
+ - Scala Download: https://www.scala-lang.org/download/ 
+
+The Sbt building automation tool that is necessary to build and bundle
+the application with Scala run-time can be downloaded from:
+
+ - Sbt Download: http://www.scala-sbt.org/download.html
+
+ - Sbt Manual Installation: [[http://www.scala-sbt.org/0.13/docs/Manual-Installation.html][sbt Reference Manual — Installing sbt manually]]
+
+Sbt can be installed with those commands: 
+
+#+BEGIN_SRC sh 
+  mkdir -p ~/bin
+
+  # Download sbt building tool to  ~/bin/sbt-launch.ja
+  curl -L -o ~/bin/sbt-launch.jar https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.13/sbt-launch.jar
+
+  # Create the sbt launch ~/bin/sbt 
+  cat ~/bin/sbt <<EOF
+  #!/bin/bash
+  SBT_OPTS="-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M"
+  java $SBT_OPTS -jar `dirname $0`/sbt-launch.jar "$@"
+  EOF
+
+  # Make the sbt launcher executable 
+  chmod u+x ~/bin/sbt
+
+
+  #------- Optional
+  #
+  # Add ~/bin to $PATH variable permanently or invoke it with ~/bin/sbt
+  #
+  echo "export PATH=\$PATH:~/bin" >> ~/.bashrc
+
+#+END_SRC
+
 
 *Build instruction* 
 
- - Just run =$ make= to build the ubber jar. The output file will be
-   ./target/scala-2.11/Clip-assembly-1.0.jar
+ 1. Install Scala
+
+ 2. Install Sbt 
+
+ 3. Run =$ make= to build the ubber jar. The output file will be
+    ./target/scala-2.11/Clip-assembly-1.0.jar
+
+If Make is not available the compilation can be run with =$ sbt assembly=.
+
 
 ** Test 
 
@@ -109,8 +169,6 @@ To build it is necessary Scala and Sbt be installed on the system.
 
 Copy an image and enter $ make test1. If the app works it will write
 the image to the file _clipboard.png_. 
-
-
 
  - =$ make test2= 
 
